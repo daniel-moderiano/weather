@@ -19,7 +19,7 @@ searchBtn.addEventListener('click', () => {
   if (searchQuery === "") {
     throw new Error("City name must be entered")
   } else {
-    promiseFetch(searchQuery);
+    asyncFetch(searchQuery);
   }
    
 })
@@ -55,8 +55,15 @@ function promiseFetch(cityName) {
 // ### ASYNC/AWAIT VERSION
 
 async function asyncFetch(cityName) {
+
   try {
     const response = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&id=524901&appid=80c5a14cc53f0fe21d2bb89222f9a766`, { mode: 'cors' });
+
+    if (!response.ok) {
+      console.log(`Error: ${cityName} not found`);
+      throw new Error(response.status);
+    }
+
     const APIData = await response.json();
     const weatherData = formatWeatherData(APIData);
 
@@ -64,9 +71,12 @@ async function asyncFetch(cityName) {
     weatherDescription.textContent = weatherData.description;
     weatherHumidity.textContent = `${weatherData.humidity}% humidity`;
     weatherFeelsLike.textContent = `Feels like ${weatherData.feelsLike.toFixed(1)}°C`;
+    
   } catch (error) {
     console.log(error);
-  }  
+  }
+
+  
 }
 
 // asyncFetch();
