@@ -100,7 +100,7 @@ weatherTemperature.addEventListener('click', changeTempDisplay);
 
 function promiseFetch(cityName) {
 
-  fetch(`http://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&id=524901&appid=80c5a14cc53f0fe21d2bb89222f9a766`, { mode: 'cors' })
+  fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&id=524901&appid=80c5a14cc53f0fe21d2bb89222f9a766`, { mode: 'cors' })
   .then((response) => {
     if (!response.ok) {
       throw new Error('City not found');
