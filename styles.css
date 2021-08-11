@@ -1,10 +1,12 @@
+/* ##### GLOBAL STYLES AND IMPORTS ##### */
+
 @import url('https://fonts.googleapis.com/css?family=Open+Sans');
 
 body {
   height: 100vh;
   width: 100vw;
   background-color: rgb(44, 44, 44);
-  color: rgb(250, 250, 250);
+  color: #f4f4f4;
   font-family: 'Open Sans', "Helvetica Neue", Helvetica, sans-serif;
   display: flex;
   align-items: center;
@@ -15,30 +17,17 @@ body {
   outline: none;
 }
 
-i {
-  color: white;
-  font-size: 2rem;
-}
+
+/* ##### MAIN ##### */
 
 .main {
   display: flex;
   align-items: center;
   justify-content: center;
-  /* margin-left: 8rem; */
-}
-
-.title {
-  font-size: 2.5rem;
-  padding-bottom: 4rem;
-  font-weight: bold;
 }
 
 
-.container {
-  display: flex;
-  flex-direction: column;
-}
-
+/* ##### WEATHER DATA ###### */
 
 .weather {
   display: grid;
@@ -47,9 +36,7 @@ i {
     "weather__temperature weather__icon"
     "weather__feels-like weather__humidity"
     "weather__description weather__description";
-  align-items: top;
 }
-
 
 .weather__location {
   grid-area: weather__location;
@@ -93,6 +80,13 @@ i {
 }
 
 
+/* ##### SEARCH ##### */
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
 .search {
   display: flex;
   align-items: center;
@@ -127,8 +121,12 @@ input::placeholder {
 }
 
 .search__btn i {
+  color: white;
   font-size: 1.2rem;
 }
+
+
+/* ##### MEDIA QUERY ##### */
 
 @media (max-width: 760px) {
   .main {
@@ -162,5 +160,4 @@ input::placeholder {
   #icon {
     padding-bottom: 0.5rem;
   }
-
 }
