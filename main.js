@@ -70,7 +70,7 @@ searchBtn.addEventListener('click', () => {
   const searchQuery = searchBar.value;
   if (searchQuery === "") {
     const err = new Error("City name must be entered");
-    displayErrorInDOM(err);
+    displayErrorInDOM(err.message);
     throw err;
   } else {
     promiseFetch(searchQuery);
@@ -89,7 +89,7 @@ function promiseFetch(cityName) {
   fetch(`http://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&id=524901&appid=80c5a14cc53f0fe21d2bb89222f9a766`, { mode: 'cors' })
   .then((response) => {
     if (!response.ok) {
-      throw new Error('City not found. Please enter a valid city name.');
+      throw new Error('City not found');
     } 
     return response.json();
   })
@@ -106,7 +106,7 @@ function promiseFetch(cityName) {
     if (error.message === 'Failed to fetch') {
       displayErrorInDOM('Unable to reach server, please check your connection');
     } else {
-      displayErrorInDOM(error);
+      displayErrorInDOM(error.message);
     }
   });
 }
