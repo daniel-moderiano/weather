@@ -6,6 +6,7 @@ const searchBar = document.querySelector('.search__bar');
 const searchBtn = document.querySelector('.search__btn');
 const errorDiv = document.querySelector('.error');
 const weatherLocation = document.querySelector('.weather__location');
+const weatherIcon = document.querySelector('#icon');
 
 
 function formatWeatherData(data, city) {
@@ -38,16 +39,28 @@ function removeRenderedWeatherData() {
   });
 }
 
+function changeIcon(data) {
+  if (data.description.includes('cloud')) {
+    weatherIcon.className = 'fas fa-cloud';
+  } else if (data.description.includes('clear')) {
+    weatherIcon.className = 'fas fa-sun';
+  } else if (data.description.includes('mist')) {
+    weatherIcon.className = 'fas fa-smog';
+  } else if (data.description.includes('rain')) {
+    weatherIcon.className = 'fas fa-cloud-rain';
+  } else {
+    weatherIcon.className = 'fas fa-sun';
+  }
+}
+
 searchBtn.addEventListener('click', () => {
   const searchQuery = searchBar.value;
   if (searchQuery === "") {
     const err = new Error("City name must be entered");
     displayErrorInDOM(err);
     throw err;
-    
   } else {
     promiseFetch(searchQuery);
-
   }
 });
 
@@ -70,6 +83,7 @@ function promiseFetch(cityName) {
     searchBar.value = "";
     const weatherData = formatWeatherData(response, cityName);
     renderWeatherData(weatherData);
+    changeIcon(weatherData);
     errorDiv.textContent = "";
   })
   .catch((error) => {

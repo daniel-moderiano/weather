@@ -6,6 +6,11 @@ body {
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
 }
 
+i {
+  color: white;
+  font-size: 2rem;
+}
+
 .main {
   display: flex;
   align-items: center;
@@ -58,3 +63,10 @@ body {
   grid-area: weather__humidity;
   font-size: 0.9rem;
 }
+
+/* 
+%Clouds%
+Clear sky
+mist
+
+*/
