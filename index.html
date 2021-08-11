@@ -6,22 +6,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="reset.css">
   <link rel="stylesheet" href="styles.css">
+  
   <script src="https://kit.fontawesome.com/3c8d9c7c2a.js" crossorigin="anonymous"></script>
   <title>Weather</title>
 </head>
 <body>
   <main class="main">
-    <h1 class=title">Weather</h1>
-    <div class="search">
-      <label for="search__bar"></label>
-      <input type="text" id="search__bar" class="search__bar">
-      <button class="search__btn">Search</button>
+
+    <div class="container">
+      <h1 class="title">Weather</h1>
+      <div class="search">
+        <label for="search__bar"></label>
+        <input type="text" id="search__bar" class="search__bar">
+        <button class="search__btn">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+      <div class="error"></div>
     </div>
-    <div class="error"></div>
-    <i id="icon"></i>
+    
+    
     <div class="weather">
       <div class="weather__temperature"></div>
       <div class="weather__feels-like"></div>
+      <i id="icon"></i>
       <div class="weather__description"></div>
       <div class="weather__humidity"></div>
       <div class="weather__location"></div>
