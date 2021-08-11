@@ -18,7 +18,7 @@ function formatWeatherData(data) {
 
 
 function displayErrorInDOM(err) {
-  weatherError.textContent = err;
+  errorDiv.textContent = err;
 }
 
 searchBtn.addEventListener('click', () => {
