@@ -7,18 +7,35 @@ const searchBtn = document.querySelector('.search__btn');
 const errorDiv = document.querySelector('.error');
 const weatherLocation = document.querySelector('.weather__location');
 
-function formatWeatherData(data) {
+
+function formatWeatherData(data, city) {
   return {
     temperature: data.main.temp,
     description: data.weather[0].description,
     humidity: data.main.humidity,
     feelsLike: data.main['feels_like'],
+    city: city,
   }
 }
 
 
 function displayErrorInDOM(err) {
   errorDiv.textContent = err;
+}
+
+function renderWeatherData(data) {
+  weatherTemperature.textContent = `${data.temperature.toFixed(1)}°C`;
+  weatherDescription.textContent = data.description;
+  weatherHumidity.textContent = `${data.humidity}% humidity`;
+  weatherFeelsLike.textContent = `Feels like ${data.feelsLike.toFixed(1)}°C`;
+  weatherLocation.textContent = data.city;
+}
+
+function removeRenderedWeatherData() {
+  const allWeatherDivs = document.querySelectorAll('.weather > div');
+  allWeatherDivs.forEach((div) => {
+    div.textContent = "";
+  });
 }
 
 searchBtn.addEventListener('click', () => {
@@ -30,9 +47,11 @@ searchBtn.addEventListener('click', () => {
     
   } else {
     promiseFetch(searchQuery);
-    searchBar.value = "";
+
   }
 });
+
+
 
 
 
@@ -48,12 +67,10 @@ function promiseFetch(cityName) {
     return response.json();
   })
   .then((response) => {
-    const weatherData = formatWeatherData(response);
-    weatherTemperature.textContent = `${weatherData.temperature.toFixed(1)}°C`;
-    weatherDescription.textContent = weatherData.description;
-    weatherHumidity.textContent = `${weatherData.humidity}% humidity`;
-    weatherFeelsLike.textContent = `Feels like ${weatherData.feelsLike.toFixed(1)}°C`;
-    weatherLocation.textContent = cityName;
+    searchBar.value = "";
+    const weatherData = formatWeatherData(response, cityName);
+    renderWeatherData(weatherData);
+    errorDiv.textContent = "";
   })
   .catch((error) => {
     // Update div with error
@@ -83,15 +100,15 @@ async function asyncFetch(cityName) {
     }
 
     const APIData = await response.json();
-    const weatherData = formatWeatherData(APIData);
+    const weatherData = formatWeatherData(APIData, cityName);
 
-    weatherTemperature.textContent = `${weatherData.temperature.toFixed(1)}°C`;
-    weatherDescription.textContent = weatherData.description;
-    weatherHumidity.textContent = `${weatherData.humidity}% humidity`;
-    weatherFeelsLike.textContent = `Feels like ${weatherData.feelsLike.toFixed(1)}°C`;
+    renderWeatherData(weatherData);
+    errorDiv.textContent = "";
+    searchBar.value = "";
 
   } catch (error) {
     // Update div with error
+    removeRenderedWeatherData();
     if (error.message === 'Failed to fetch') {
       displayErrorInDOM('Unable to reach server, please check your connection');
     } else {
