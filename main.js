@@ -8,7 +8,6 @@ const errorDiv = document.querySelector('.error');
 const weatherLocation = document.querySelector('.weather__location');
 const weatherIcon = document.querySelector('#icon');
 
-const api = config.API_KEY;
 
 function formatWeatherData(data, city) {
   return {
@@ -101,7 +100,7 @@ weatherTemperature.addEventListener('click', changeTempDisplay);
 
 function promiseFetch(cityName) {
 
-  fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&id=524901&appid=${api}`, { mode: 'cors' })
+  fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&id=524901&appid=32eecf49535cf784656e396d0e9d2a1c`, { mode: 'cors' })
   .then((response) => {
     if (!response.ok) {
       throw new Error('City not found');
@@ -134,7 +133,7 @@ promiseFetch('Japan');
 
 async function asyncFetch(cityName) {
   try {
-    const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&id=524901&appid=${api}`, { mode: 'cors' });
+    const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&id=524901&appid=32eecf49535cf784656e396d0e9d2a1c`, { mode: 'cors' });
 
     if (!response.ok) {
       console.log(`Error: ${cityName} not found`);
