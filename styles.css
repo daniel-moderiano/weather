@@ -1,0 +1,45 @@
+body {
+  height: 100vh;
+  width: 100vw;
+  background-color: rgb(44, 44, 44);
+  color: rgb(250, 250, 250);
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+}
+
+.main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding-top: 20rem;
+}
+
+
+.weather {
+  display: grid;
+  grid-template-areas: 
+    "weather__location weather__location"
+    "weather__temperature weather__description"
+    "weather__feels-like weather__humidity";
+}
+
+
+.weather__temperature {
+  grid-area: weather__temperature;
+}
+
+.weather__feels-like {
+  grid-area: weather__feels-like;
+}
+
+.weather__location {
+  grid-area: weather__location;
+}
+
+.weather__description {
+  grid-area: weather__description;
+}
+
+.weather__humidity {
+  grid-area: weather__humidity;
+}

@@ -4,7 +4,8 @@ const weatherHumidity = document.querySelector('.weather__humidity');
 const weatherFeelsLike = document.querySelector('.weather__feels-like');
 const searchBar = document.querySelector('.search__bar');
 const searchBtn = document.querySelector('.search__btn');
-const weatherError = document.querySelector('.weather__error');
+const errorDiv = document.querySelector('.error');
+const weatherLocation = document.querySelector('.weather__location');
 
 function formatWeatherData(data) {
   return {
@@ -52,6 +53,7 @@ function promiseFetch(cityName) {
     weatherDescription.textContent = weatherData.description;
     weatherHumidity.textContent = `${weatherData.humidity}% humidity`;
     weatherFeelsLike.textContent = `Feels like ${weatherData.feelsLike.toFixed(1)}°C`;
+    weatherLocation.textContent = cityName;
   })
   .catch((error) => {
     // Update div with error
@@ -90,8 +92,11 @@ async function asyncFetch(cityName) {
 
   } catch (error) {
     // Update div with error
-    displayErrorInDOM(error);
-    console.log(error);
+    if (error.message === 'Failed to fetch') {
+      displayErrorInDOM('Unable to reach server, please check your connection');
+    } else {
+      displayErrorInDOM(error);
+    }
   }
 
   
