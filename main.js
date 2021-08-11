@@ -4,6 +4,7 @@ const weatherHumidity = document.querySelector('.weather__humidity');
 const weatherFeelsLike = document.querySelector('.weather__feels-like');
 const searchBar = document.querySelector('.search__bar');
 const searchBtn = document.querySelector('.search__btn');
+const weatherError = document.querySelector('.weather__error');
 
 function formatWeatherData(data) {
   return {
@@ -14,15 +15,24 @@ function formatWeatherData(data) {
   }
 }
 
+
+function displayErrorInDOM(err) {
+  weatherError.textContent = err;
+}
+
 searchBtn.addEventListener('click', () => {
   const searchQuery = searchBar.value;
   if (searchQuery === "") {
-    throw new Error("City name must be entered")
+    const err = new Error("City name must be entered");
+    displayErrorInDOM(err);
+    throw err;
+    
   } else {
-    asyncFetch(searchQuery);
+    promiseFetch(searchQuery);
+    searchBar.value = "";
   }
-   
-})
+});
+
 
 
 // ### PROMISE VERSION ###
@@ -32,7 +42,7 @@ function promiseFetch(cityName) {
   fetch(`http://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&id=524901&appid=80c5a14cc53f0fe21d2bb89222f9a766`, { mode: 'cors' })
   .then((response) => {
     if (!response.ok) {
-      throw Error(response.statusText);
+      throw new Error('City not found. Please enter a valid city name.');
     } 
     return response.json();
   })
@@ -44,7 +54,13 @@ function promiseFetch(cityName) {
     weatherFeelsLike.textContent = `Feels like ${weatherData.feelsLike.toFixed(1)}°C`;
   })
   .catch((error) => {
-    console.log(error);
+    // Update div with error
+    // Check for fetch fail (as opposed to status fail thrown above)
+    if (error.message === 'Failed to fetch') {
+      displayErrorInDOM('Unable to reach server, please check your connection');
+    } else {
+      displayErrorInDOM(error);
+    }
   });
 }
 
@@ -71,8 +87,10 @@ async function asyncFetch(cityName) {
     weatherDescription.textContent = weatherData.description;
     weatherHumidity.textContent = `${weatherData.humidity}% humidity`;
     weatherFeelsLike.textContent = `Feels like ${weatherData.feelsLike.toFixed(1)}°C`;
-    
+
   } catch (error) {
+    // Update div with error
+    displayErrorInDOM(error);
     console.log(error);
   }
 
