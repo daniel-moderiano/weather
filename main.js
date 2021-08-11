@@ -53,6 +53,19 @@ function changeIcon(data) {
   }
 }
 
+function searchByEnterKey(event) {
+  if (event.keyCode === 13) {
+    event.preventDefault();
+    searchBtn.click();
+  }
+}
+
+searchBar.addEventListener('keyup', (e) => {
+    searchByEnterKey(e);
+    
+});
+
+
 searchBtn.addEventListener('click', () => {
   const searchQuery = searchBar.value;
   if (searchQuery === "") {
@@ -62,6 +75,7 @@ searchBtn.addEventListener('click', () => {
   } else {
     promiseFetch(searchQuery);
   }
+  searchBar.blur();
 });
 
 
