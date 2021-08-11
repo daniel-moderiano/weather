@@ -37,13 +37,6 @@ function renderWeatherData(data) {
   weatherLocation.textContent = data.city;
 }
 
-function removeRenderedWeatherData() {
-  const allWeatherDivs = document.querySelectorAll('.weather > div');
-  allWeatherDivs.forEach((div) => {
-    div.textContent = "";
-  });
-}
-
 function changeIcon(data) {
   if (data.description.includes('cloud')) {
     weatherIcon.className = 'fas fa-cloud';
@@ -59,16 +52,22 @@ function changeIcon(data) {
 }
 
 function searchByEnterKey(event) {
+  // Enter key has code 13
   if (event.keyCode === 13) {
     event.preventDefault();
     searchBtn.click();
   }
 }
 
-searchBar.addEventListener('keyup', (e) => {
-    searchByEnterKey(e);
-});
-
+function changeTempDisplay() {
+  if (weatherTemperature.textContent.includes('C')) {
+    weatherTemperature.textContent = `${parseInt(weatherTemperature.dataset.farenheit).toFixed(1)}°F`;
+    weatherFeelsLike.textContent = `Feels like ${parseInt(weatherFeelsLike.dataset.farenheit).toFixed(1)}°F`;
+  } else {
+    weatherTemperature.textContent = `${parseInt(weatherTemperature.dataset.celsius).toFixed(1)}°C`;
+    weatherFeelsLike.textContent = `Feels like ${parseInt(weatherFeelsLike.dataset.celsius).toFixed(1)}°C`;
+  }
+}
 
 searchBtn.addEventListener('click', () => {
   const searchQuery = searchBar.value;
@@ -82,16 +81,9 @@ searchBtn.addEventListener('click', () => {
   searchBar.blur();
 });
 
-
-function changeTempDisplay() {
-  if (weatherTemperature.textContent.includes('C')) {
-    weatherTemperature.textContent = `${parseInt(weatherTemperature.dataset.farenheit).toFixed(1)}°F`;
-    weatherFeelsLike.textContent = `Feels like ${parseInt(weatherFeelsLike.dataset.farenheit).toFixed(1)}°F`;
-  } else {
-    weatherTemperature.textContent = `${parseInt(weatherTemperature.dataset.celsius).toFixed(1)}°C`;
-    weatherFeelsLike.textContent = `Feels like ${parseInt(weatherFeelsLike.dataset.celsius).toFixed(1)}°C`;
-  }
-}
+searchBar.addEventListener('keyup', (e) => {
+  searchByEnterKey(e);
+});
 
 weatherTemperature.addEventListener('click', changeTempDisplay);
 
@@ -99,7 +91,6 @@ weatherTemperature.addEventListener('click', changeTempDisplay);
 // ### PROMISE VERSION ###
 
 function promiseFetch(cityName) {
-
   fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&id=524901&appid=32eecf49535cf784656e396d0e9d2a1c`, { mode: 'cors' })
   .then((response) => {
     if (!response.ok) {
@@ -126,35 +117,3 @@ function promiseFetch(cityName) {
 }
 
 promiseFetch('Japan');
-
-
-
-// ### ASYNC/AWAIT VERSION
-
-async function asyncFetch(cityName) {
-  try {
-    const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&id=524901&appid=32eecf49535cf784656e396d0e9d2a1c`, { mode: 'cors' });
-
-    if (!response.ok) {
-      console.log(`Error: ${cityName} not found`);
-      throw new Error(response.status);
-    }
-
-    const APIData = await response.json();
-    const weatherData = formatWeatherData(APIData, cityName);
-
-    renderWeatherData(weatherData);
-    changeIcon(weatherData);
-    errorDiv.textContent = "";
-    searchBar.value = "";
-
-  } catch (error) {
-    // Update div with error
-    removeRenderedWeatherData();
-    if (error.message === 'Failed to fetch') {
-      displayErrorInDOM('Unable to reach server, please check your connection');
-    } else {
-      displayErrorInDOM(error.message);
-    }
-  }
-}
