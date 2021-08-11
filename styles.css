@@ -6,6 +6,9 @@ body {
   background-color: rgb(44, 44, 44);
   color: rgb(250, 250, 250);
   font-family: 'Open Sans', "Helvetica Neue", Helvetica, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 :focus {
@@ -21,7 +24,7 @@ i {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-top: 8rem;
+  /* margin-left: 8rem; */
 }
 
 .title {
@@ -44,9 +47,6 @@ i {
     "weather__temperature weather__icon"
     "weather__feels-like weather__humidity"
     "weather__description weather__description";
-
-  grid-template-columns: 8rem 7rem;
-  margin-top: 2rem;
   align-items: top;
 }
 
@@ -54,26 +54,27 @@ i {
 .weather__location {
   grid-area: weather__location;
   grid-row: 0 / span 2;
-
-  font-size: 1.8rem;
-  padding-bottom: 1rem;
+  font-size: 2.5rem;
+  padding-bottom: 1.5rem;
 }
 
 .weather__temperature {
   grid-area: weather__temperature;
-  font-size: 2rem;
-  padding-bottom: 0.5rem;
+  font-size: 3.5rem;
+  font-weight: bold;
+  padding-bottom: 0.8rem;
+  padding-right: 3rem;
 }
 
 .weather__feels-like {
   grid-area: weather__feels-like;
-  font-size: 0.8rem;
-  padding-bottom: 1.5rem;
+  font-size: 1rem;
+  padding-bottom: 1.8rem;
 }
 
 .weather__description {
   grid-area: weather__description;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
 }
 
 .weather__description::first-letter {
@@ -82,11 +83,13 @@ i {
 
 .weather__humidity {
   grid-area: weather__humidity;
-  font-size: 0.9rem;
+  font-size: 1rem;
 }
 
 #icon {
+  padding-top: 0.3rem;
   grid-area: weather__icon;
+  font-size: 3rem;
 }
 
 
@@ -94,12 +97,22 @@ i {
   display: flex;
   align-items: center;
   height: 2rem;
+  margin-right: 5rem;
 }
 
 input {
   background-color: rgb(44, 44, 44);
   border: none;
   border-bottom: 2px solid #f4f4f4;
+  padding-bottom: 0.2rem;
+  caret-color: #f4f4f4;
+  color: #f4f4f4;
+  font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+  font-size: 1rem;
+}
+
+input::placeholder {
+  color: #f4f4f486;
 }
 
 .search__btn {
@@ -115,4 +128,39 @@ input {
 
 .search__btn i {
   font-size: 1.2rem;
+}
+
+@media (max-width: 760px) {
+  .main {
+    flex-direction: column;
+  }
+
+  .container {
+    margin-bottom: 4rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .weather {
+    grid-template-areas: 
+    "weather__location"
+    "weather__temperature"
+    "weather__feels-like"
+    "weather__description"
+    "weather__icon"
+    "weather__humidity";
+  }
+
+  .search {
+    margin: 0;
+  }
+
+  .weather__description {
+    padding-bottom: 1.5rem;
+  }
+
+  #icon {
+    padding-bottom: 0.5rem;
+  }
+
 }

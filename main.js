@@ -111,7 +111,7 @@ function promiseFetch(cityName) {
   });
 }
 
-// promiseFetch();
+promiseFetch('Japan');
 
 
 
