@@ -134,7 +134,7 @@ promiseFetch('Japan');
 async function asyncFetch(cityName) {
 
   try {
-    const response = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&id=524901&appid=80c5a14cc53f0fe21d2bb89222f9a766`, { mode: 'cors' });
+    const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&id=524901&appid=80c5a14cc53f0fe21d2bb89222f9a766`, { mode: 'cors' });
 
     if (!response.ok) {
       console.log(`Error: ${cityName} not found`);
@@ -145,6 +145,7 @@ async function asyncFetch(cityName) {
     const weatherData = formatWeatherData(APIData, cityName);
 
     renderWeatherData(weatherData);
+    changeIcon(weatherData);
     errorDiv.textContent = "";
     searchBar.value = "";
 
