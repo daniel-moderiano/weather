@@ -54,6 +54,10 @@ body {
   padding-right: 3rem;
 }
 
+.weather__temperature:hover {
+  cursor: pointer;
+}
+
 .weather__feels-like {
   grid-area: weather__feels-like;
   font-size: 1rem;

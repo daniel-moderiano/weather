@@ -12,13 +12,14 @@ const weatherIcon = document.querySelector('#icon');
 function formatWeatherData(data, city) {
   return {
     temperature: data.main.temp,
+    tempFarenheit: ((data.main.temp * (9 / 5)) + 32),
     description: data.weather[0].description,
     humidity: data.main.humidity,
     feelsLike: data.main['feels_like'],
+    feelsLikeFarenheit: ((data.main['feels_like'] * (9 / 5)) + 32),
     city: city,
   }
 }
-
 
 function displayErrorInDOM(err) {
   errorDiv.textContent = err;
@@ -26,9 +27,13 @@ function displayErrorInDOM(err) {
 
 function renderWeatherData(data) {
   weatherTemperature.textContent = `${data.temperature.toFixed(1)}°C`;
+  weatherTemperature.dataset.farenheit = data.tempFarenheit;
+  weatherTemperature.dataset.celsius = data.temperature;
   weatherDescription.textContent = data.description;
   weatherHumidity.textContent = `${data.humidity}% humidity`;
   weatherFeelsLike.textContent = `Feels like ${data.feelsLike.toFixed(1)}°C`;
+  weatherFeelsLike.dataset.farenheit = data.feelsLikeFarenheit;
+  weatherFeelsLike.dataset.celsius = data.feelsLike;
   weatherLocation.textContent = data.city;
 }
 
@@ -62,7 +67,6 @@ function searchByEnterKey(event) {
 
 searchBar.addEventListener('keyup', (e) => {
     searchByEnterKey(e);
-    
 });
 
 
@@ -79,7 +83,17 @@ searchBtn.addEventListener('click', () => {
 });
 
 
+function changeTempDisplay() {
+  if (weatherTemperature.textContent.includes('C')) {
+    weatherTemperature.textContent = `${parseInt(weatherTemperature.dataset.farenheit).toFixed(1)}°F`;
+    weatherFeelsLike.textContent = `Feels like ${parseInt(weatherFeelsLike.dataset.farenheit).toFixed(1)}°F`;
+  } else {
+    weatherTemperature.textContent = `${parseInt(weatherTemperature.dataset.celsius).toFixed(1)}°C`;
+    weatherFeelsLike.textContent = `Feels like ${parseInt(weatherFeelsLike.dataset.celsius).toFixed(1)}°C`;
+  }
+}
 
+weatherTemperature.addEventListener('click', changeTempDisplay);
 
 
 // ### PROMISE VERSION ###
@@ -140,7 +154,7 @@ async function asyncFetch(cityName) {
     if (error.message === 'Failed to fetch') {
       displayErrorInDOM('Unable to reach server, please check your connection');
     } else {
-      displayErrorInDOM(error);
+      displayErrorInDOM(error.message);
     }
   }
 
